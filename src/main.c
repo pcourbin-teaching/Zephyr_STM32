@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define CONFIG_LVGL_DISPLAY_DEV_NAME ili9341 //  DT_NODELABEL(DISPLAY) ili9341 DISPLAY_NEW
+#define CONFIG_LVGL_DISPLAY_DEV_NAME DT_LABEL(DT_INST(0, ilitek_ili9340))
 
 #define LOG_LEVEL CONFIG_LOG_DEFAULT_LEVEL
 #include <logging/log.h>
@@ -34,20 +34,18 @@ void main(void)
 	lv_obj_t *hello_world_label;
 	lv_obj_t *count_label;
 
-	// display_dev = device_get_binding(CONFIG_LVGL_DISPLAY_DEV_NAME);
-	//display_dev = DEVICE_DT_GET(DT_NODELABEL(CONFIG_LVGL_DISPLAY_DEV_NAME));
-	display_dev = DEVICE_DT_GET(DT_NODELABEL(ili9341));
+	display_dev = device_get_binding(CONFIG_LVGL_DISPLAY_DEV_NAME);
 	if (display_dev == NULL) {
 		LOG_ERR("device not found. Aborting test.");
 		return;
 	}
 
-	hello_world_label = lv_label_create(lv_scr_act());
+	hello_world_label = lv_label_create(lv_scr_act(), NULL);
 	lv_label_set_text(hello_world_label, "Hello world!");
-	lv_obj_align(hello_world_label, LV_ALIGN_CENTER, 0, 0);
+	lv_obj_align(hello_world_label, NULL, LV_ALIGN_CENTER, 0, 0);
 
-	count_label = lv_label_create(lv_scr_act());
-	lv_obj_align(count_label, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
+	count_label = lv_label_create(lv_scr_act(), NULL);
+	lv_obj_align(count_label, NULL, LV_ALIGN_IN_BOTTOM_MID, 0, 0);
 
 	display_blanking_off(display_dev);
 
