@@ -1,0 +1,56 @@
+// https://github.com/CliffsDover/zephyr_lvgl_nrf52_pca10040_ili9341/blob/master/nrf52_pca10040.overlay
+// https://github.com/zephyrproject-rtos/zephyr/blob/v2.7-branch/boards/arm/stm32f429i_disc1/stm32f429i_disc1.dts
+// https://github.com/zephyrproject-rtos/zephyr/blob/main/boards/arm/stm32f429i_disc1/stm32f429i_disc1.dts
+// https://github.com/lvgl/lv_platformio/blob/master/platformio.ini
+/* &spi1 {
+	status = "okay";
+	sck-pin = <25>;
+	mosi-pin = <23>;
+	miso-pin = <24>;
+	cs-gpios = <&gpio0 16 0>;
+
+	ili9340@0 {
+		compatible = "ilitek,ili9340";
+		label = "DISPLAY";
+		spi-max-frequency = <10000000>;
+		reg = <0>;
+		reset-gpios = <&gpio0 21 0>;
+		cmd-data-gpios = <&gpio0 17 0>;
+	};
+};
+
+
+&spi5 {
+	pinctrl-0 = <&spi5_nss_pf6 &spi5_sck_pf7
+			&spi5_miso_pf8 &spi5_mosi_pf9>;
+	pinctrl-names = "default";
+	status = "okay";
+	cs-gpios = <&gpioc 2 GPIO_ACTIVE_LOW>;
+	ili9341: ili9341@0 {
+		compatible = "ilitek,ili9341";
+		label = "DISPLAY";
+		spi-max-frequency = <5625000>;
+		reg = <0>;
+		cmd-data-gpios = <&gpiod 13 GPIO_ACTIVE_LOW>;
+		
+	};
+};
+
+
+*/
+
+&spi5 {
+	pinctrl-0 = <&spi5_nss_pf6 &spi5_sck_pf7
+			&spi5_miso_pf8 &spi5_mosi_pf9>;
+	pinctrl-names = "default";
+	status = "okay";
+	cs-gpios = <&gpioc 2 (1 << 0)>;
+	ili9341: ili9341@0 {
+		compatible = "ilitek,ili9341";
+		label = "DISPLAY_NEW";
+		spi-max-frequency = <5625000>;
+		reg = <0>;
+		cmd-data-gpios = <&gpiod 13 (1 << 0)>;
+		status = "okay";
+	};
+};
