@@ -14,46 +14,7 @@ LOG_MODULE_REGISTER(sample, LOG_LEVEL_INF);
 #include <device.h>
 #include <drivers/display.h>
 
-#if DT_NODE_HAS_STATUS(DT_INST(0, ilitek_ili9340), okay)
 #define DISPLAY_DEV_NAME DT_LABEL(DT_INST(0, ilitek_ili9340))
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_INST(0, solomon_ssd1306fb), okay)
-#define DISPLAY_DEV_NAME DT_LABEL(DT_INST(0, solomon_ssd1306fb))
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_INST(0, solomon_ssd16xxfb), okay)
-#define DISPLAY_DEV_NAME DT_LABEL(DT_INST(0, solomon_ssd16xxfb))
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_INST(0, sitronix_st7789v), okay)
-#define DISPLAY_DEV_NAME DT_LABEL(DT_INST(0, sitronix_st7789v))
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_INST(0, sitronix_st7735r), okay)
-#define DISPLAY_DEV_NAME DT_LABEL(DT_INST(0, sitronix_st7735r))
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_INST(0, fsl_imx6sx_lcdif), okay)
-#define DISPLAY_DEV_NAME DT_LABEL(DT_INST(0, fsl_imx6sx_lcdif))
-#endif
-
-#ifdef CONFIG_SDL_DISPLAY_DEV_NAME
-#define DISPLAY_DEV_NAME CONFIG_SDL_DISPLAY_DEV_NAME
-#endif
-
-#ifdef CONFIG_DUMMY_DISPLAY_DEV_NAME
-#define DISPLAY_DEV_NAME CONFIG_DUMMY_DISPLAY_DEV_NAME
-#endif
-#ifdef CONFIG_ARCH_POSIX
-#include "posix_board_if.h"
-#endif
-
-#ifdef CONFIG_ARCH_POSIX
-#define RETURN_FROM_MAIN(exit_code) posix_exit_main(exit_code)
-#else
-#define RETURN_FROM_MAIN(exit_code) return
-#endif
 
 enum corner {
 	TOP_LEFT,
@@ -64,73 +25,6 @@ enum corner {
 
 typedef void (*fill_buffer)(enum corner corner, uint8_t grey, uint8_t *buf,
 			    size_t buf_size);
-
-
-#ifdef CONFIG_ARCH_POSIX
-static void posix_exit_main(int exit_code)
-{
-#if CONFIG_TEST
-	if (exit_code == 0) {
-		LOG_INF("PROJECT EXECUTION SUCCESSFUL");
-	} else {
-		LOG_INF("PROJECT EXECUTION FAILED");
-	}
-#endif
-	posix_exit(exit_code);
-}
-#endif
-
-static void fill_buffer_argb8888(enum corner corner, uint8_t grey, uint8_t *buf,
-				 size_t buf_size)
-{
-	uint32_t color = 0;
-
-	switch (corner) {
-	case TOP_LEFT:
-		color = 0x00FF0000u;
-		break;
-	case TOP_RIGHT:
-		color = 0x0000FF00u;
-		break;
-	case BOTTOM_RIGHT:
-		color = 0x000000FFu;
-		break;
-	case BOTTOM_LEFT:
-		color = grey << 16 | grey << 8 | grey;
-		break;
-	}
-
-	for (size_t idx = 0; idx < buf_size; idx += 4) {
-		*((uint32_t *)(buf + idx)) = color;
-	}
-}
-
-static void fill_buffer_rgb888(enum corner corner, uint8_t grey, uint8_t *buf,
-			       size_t buf_size)
-{
-	uint32_t color = 0;
-
-	switch (corner) {
-	case TOP_LEFT:
-		color = 0x00FF0000u;
-		break;
-	case TOP_RIGHT:
-		color = 0x0000FF00u;
-		break;
-	case BOTTOM_RIGHT:
-		color = 0x000000FFu;
-		break;
-	case BOTTOM_LEFT:
-		color = grey << 16 | grey << 8 | grey;
-		break;
-	}
-
-	for (size_t idx = 0; idx < buf_size; idx += 3) {
-		*(buf + idx + 0) = color >> 16;
-		*(buf + idx + 1) = color >> 8;
-		*(buf + idx + 2) = color >> 0;
-	}
-}
 
 static uint16_t get_rgb565_color(enum corner corner, uint8_t grey)
 {
@@ -167,33 +61,6 @@ static void fill_buffer_rgb565(enum corner corner, uint8_t grey, uint8_t *buf,
 	}
 }
 
-static void fill_buffer_bgr565(enum corner corner, uint8_t grey, uint8_t *buf,
-			       size_t buf_size)
-{
-	uint16_t color = get_rgb565_color(corner, grey);
-
-	for (size_t idx = 0; idx < buf_size; idx += 2) {
-		*(uint16_t *)(buf + idx) = color;
-	}
-}
-
-static void fill_buffer_mono(enum corner corner, uint8_t grey, uint8_t *buf,
-			     size_t buf_size)
-{
-	uint16_t color;
-
-	switch (corner) {
-	case BOTTOM_LEFT:
-		color = (grey & 0x01u) ? 0xFFu : 0x00u;
-		break;
-	default:
-		color = 0;
-		break;
-	}
-
-	memset(buf, color, buf_size);
-}
-
 void main(void)
 {
 	size_t x;
@@ -218,11 +85,12 @@ void main(void)
 	if (display_dev == NULL) {
 		LOG_ERR("Device %s not found. Aborting sample.",
 			DISPLAY_DEV_NAME);
-		RETURN_FROM_MAIN(1);
+		return;
 	}
 
 	display_get_capabilities(display_dev, &capabilities);
 
+	LOG_ERR("Screen info :\n[X,Y]=[%d,%d]\nPixel Format: %d",capabilities.x_resolution, capabilities.y_resolution, capabilities.current_pixel_format);
 	if (capabilities.screen_info & SCREEN_INFO_MONO_VTILED) {
 		rect_w = 16;
 		rect_h = 8;
@@ -249,38 +117,19 @@ void main(void)
 		buf_size = capabilities.x_resolution * h_step;
 	}
 
-	switch (capabilities.current_pixel_format) {
-	case PIXEL_FORMAT_ARGB_8888:
-		fill_buffer_fnc = fill_buffer_argb8888;
-		buf_size *= 4;
-		break;
-	case PIXEL_FORMAT_RGB_888:
-		fill_buffer_fnc = fill_buffer_rgb888;
-		buf_size *= 3;
-		break;
-	case PIXEL_FORMAT_RGB_565:
+	if (capabilities.current_pixel_format == PIXEL_FORMAT_RGB_565){
 		fill_buffer_fnc = fill_buffer_rgb565;
 		buf_size *= 2;
-		break;
-	case PIXEL_FORMAT_BGR_565:
-		fill_buffer_fnc = fill_buffer_bgr565;
-		buf_size *= 2;
-		break;
-	case PIXEL_FORMAT_MONO01:
-	case PIXEL_FORMAT_MONO10:
-		fill_buffer_fnc = fill_buffer_mono;
-		buf_size /= 8;
-		break;
-	default:
-		LOG_ERR("Unsupported pixel format. Aborting sample.");
-		RETURN_FROM_MAIN(1);
+	} else  {
+		LOG_ERR("Device does not allow 'PIXEL_FORMAT_RGB_565' pixel format. Aborting.");
+		return;
 	}
 
 	buf = k_malloc(buf_size);
 
 	if (buf == NULL) {
 		LOG_ERR("Could not allocate memory. Aborting sample.");
-		RETURN_FROM_MAIN(1);
+		return;
 	}
 
 	(void)memset(buf, 0xFFu, buf_size);
@@ -324,12 +173,7 @@ void main(void)
 		display_write(display_dev, x, y, &buf_desc, buf);
 		++grey_count;
 		k_msleep(grey_scale_sleep);
-#if CONFIG_TEST
-		if (grey_count >= 1024) {
-			break;
-		}
-#endif
 	}
 
-	RETURN_FROM_MAIN(0);
+	return;
 }
