@@ -2,7 +2,7 @@
 #define BME680_HPP
 
 #include <drivers/sensor.h>
-//#include "log.hpp"
+// #include "log.hpp"
 /*#include <logging/log.h>
 LOG_MODULE_DECLARE(app);*/
 #ifndef LOG_LEVEL
@@ -11,16 +11,20 @@ LOG_MODULE_DECLARE(app);*/
 
 #define BME680_DEV_NAME DT_LABEL(DT_INST(0, bosch_bme680))
 
-class BME680 {       
-  public:             
-    const struct device *dev;
+class BME680
+{
+public:
+  const struct device *dev;
 
-    int false_value = 0;
+  struct sensor_value temperature;
+  struct sensor_value humidity;
+  int false_value = 0;
 
-    void init();
+  void init();
 
-    double get_temperature();
-    double get_humidity();
+  void update_values();
+  double get_temperature();
+  double get_humidity();
 };
 
 #endif

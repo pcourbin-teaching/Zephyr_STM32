@@ -8,69 +8,22 @@
 #include <kernel.h>
 #include <drivers/gpio.h>
 
-#define LOG_LEVEL CONFIG_LOG_DEFAULT_LEVEL
 #include <logging/log.h>
-LOG_MODULE_REGISTER(app, LOG_LEVEL);
+LOG_MODULE_REGISTER(app);
 
-typedef struct task_t
-{
-	struct k_thread thread_p;
-	k_tid_t tid;
-	struct z_thread_stack_element *thread_stack;
-	int start;
-	int period;
-	int cpu;
-	int priority;
-	uint8_t led0;
-	uint8_t led1;
-} task;
-
-#define DELAY_START_TIME_MS 5000
 #define STACKSIZE (4096)
 static K_THREAD_STACK_DEFINE(thread0_stack, STACKSIZE);
 static K_THREAD_STACK_DEFINE(thread1_stack, STACKSIZE);
 
-task tasks[] = {
-	{.thread_stack = thread0_stack, .start = 0000, .period = 1000, .cpu = 400, .priority = 1, .led0 = 1, .led1 = 0},
-	{.thread_stack = thread1_stack, .start = 1000, .period = 3000, .cpu = 700, .priority = 2, .led0 = 0, .led1 = 1}};
+int buttonPushed = 0;
 
 /* The devicetree node identifier for the "led0" alias. */
 #define LED0_NODE DT_ALIAS(led0)
 #define LED1_NODE DT_ALIAS(led1)
+#define SW0_NODE DT_ALIAS(sw0)
 static const struct gpio_dt_spec led0 = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 static const struct gpio_dt_spec led1 = GPIO_DT_SPEC_GET(LED1_NODE, gpios);
-
-uint32_t cal = 1000;
-
-void update_leds(uint8_t led0_val, uint8_t led1_val)
-{
-	gpio_pin_set_dt(&led0, led0_val);
-	gpio_pin_set_dt(&led1, led1_val);
-}
-
-void burnCPU(uint16_t ms, uint8_t led0, uint8_t led1)
-{
-	while (ms--)
-	{
-		for (uint16_t i = 0; i < cal; i++)
-		{
-			update_leds(led0, led1);
-			__asm("nop");
-		}
-	}
-}
-
-void calibrateBurnCPU()
-{
-	update_leds(1, 1);
-
-	uint32_t objective_ms = 1000;
-	uint32_t mesured_time = k_uptime_get();
-	burnCPU(objective_ms, 1, 1);
-	mesured_time = k_uptime_get() - mesured_time;
-	cal = cal * objective_ms / mesured_time;
-	update_leds(0, 0);
-}
+static const struct gpio_dt_spec sw0 = GPIO_DT_SPEC_GET_OR(SW0_NODE, gpios, {0});
 
 static void generic_task_entry(void *p1, void *p2, void *p3)
 {

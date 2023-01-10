@@ -1,6 +1,0 @@
-{
-    "cmake.sourceDirectory": "${workspaceFolder}/zephyr",
-    "files.associations": {
-        "zephyr.h": "c"
-    }
-}
