@@ -76,21 +76,18 @@ static void bme680_task(void *p1, void *p2, void *p3)
 
 void main(void)
 {
+	struct k_thread display_t;
+	struct k_thread bme680_t;
+
 	display.init(true);
 	bme680.init();
 
 
-	k_tid_t display_tid;
-	struct k_thread display_t;
-	display_tid = k_thread_create(&display_t, display_stack, K_THREAD_STACK_SIZEOF(display_stack),
-									   display_task, NULL, NULL, NULL,
-									   PRIO_DISPLAY_TASK, 0, K_NO_WAIT);
-	k_tid_t bme680_tid;
-	struct k_thread bme680_t;
-	bme680_tid = k_thread_create(&bme680_t, bme680_stack, K_THREAD_STACK_SIZEOF(bme680_stack),
-									   bme680_task, NULL, NULL, NULL,
-									   PRIO_BME680_TASK, 0, K_NO_WAIT);
-		
-	k_thread_start(&display_t);
-	k_thread_start(&bme680_t);
+	k_thread_create(&display_t, display_stack, K_THREAD_STACK_SIZEOF(display_stack),
+						display_task, NULL, NULL, NULL,
+						PRIO_DISPLAY_TASK, 0, K_NO_WAIT);
+	
+	k_thread_create(&bme680_t, bme680_stack, K_THREAD_STACK_SIZEOF(bme680_stack),
+						bme680_task, NULL, NULL, NULL,
+						PRIO_BME680_TASK, 0, K_NO_WAIT);
 }
