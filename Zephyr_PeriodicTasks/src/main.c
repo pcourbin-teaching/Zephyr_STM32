@@ -8,9 +8,8 @@
 #include <kernel.h>
 #include <drivers/gpio.h>
 
-#define LOG_LEVEL CONFIG_LOG_DEFAULT_LEVEL
 #include <logging/log.h>
-LOG_MODULE_REGISTER(app, LOG_LEVEL);
+LOG_MODULE_REGISTER(app);
 
 typedef struct task_t
 {
@@ -130,6 +129,5 @@ void main(void)
 
 		if (tasks[i].tid == NULL)
 			return;
-		k_thread_start(&tasks[i].thread_p);
 	}
 }

@@ -25,7 +25,7 @@ BME680 bme680;
 
 static void display_task(void *p1, void *p2, void *p3)
 {
-	char* name = log_strdup("DISPLAY");
+	char *name = log_strdup("DISPLAY");
 	k_tid_t tid = k_current_get();
 	int period = PERIOD_DISPLAY_TASK;
 
@@ -39,7 +39,7 @@ static void display_task(void *p1, void *p2, void *p3)
 	while (1)
 	{
 		k_timer_status_sync(&timer);
-		LOG_INF("START task %s",name);
+		LOG_INF("START task %s", name);
 		start = k_uptime_get_32();
 		display.task_handler();
 		display.chart_add_temperature(bme680.get_temperature());
@@ -53,10 +53,10 @@ static void display_task(void *p1, void *p2, void *p3)
 
 static void bme680_task(void *p1, void *p2, void *p3)
 {
-	char* name = log_strdup("BME680");
+	char *name = log_strdup("BME680");
 	k_tid_t tid = k_current_get();
 	int period = PERIOD_BME680_TASK;
-	
+
 	uint32_t start;
 
 	struct k_timer timer;
@@ -73,7 +73,6 @@ static void bme680_task(void *p1, void *p2, void *p3)
 	}
 }
 
-
 void main(void)
 {
 	struct k_thread display_t;
@@ -82,12 +81,11 @@ void main(void)
 	display.init(true);
 	bme680.init();
 
-
 	k_thread_create(&display_t, display_stack, K_THREAD_STACK_SIZEOF(display_stack),
-						display_task, NULL, NULL, NULL,
-						PRIO_DISPLAY_TASK, 0, K_NO_WAIT);
-	
+					display_task, NULL, NULL, NULL,
+					PRIO_DISPLAY_TASK, 0, K_NO_WAIT);
+
 	k_thread_create(&bme680_t, bme680_stack, K_THREAD_STACK_SIZEOF(bme680_stack),
-						bme680_task, NULL, NULL, NULL,
-						PRIO_BME680_TASK, 0, K_NO_WAIT);
+					bme680_task, NULL, NULL, NULL,
+					PRIO_BME680_TASK, 0, K_NO_WAIT);
 }

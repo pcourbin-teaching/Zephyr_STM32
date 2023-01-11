@@ -2,12 +2,6 @@
 #define BME680_HPP
 
 #include <drivers/sensor.h>
-// #include "log.hpp"
-/*#include <logging/log.h>
-LOG_MODULE_DECLARE(app);*/
-#ifndef LOG_LEVEL
-#define LOG_LEVEL CONFIG_LOG_DEFAULT_LEVEL
-#endif
 
 #define BME680_DEV_NAME DT_LABEL(DT_INST(0, bosch_bme680))
 

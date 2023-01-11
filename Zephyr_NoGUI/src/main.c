@@ -30,7 +30,8 @@ int switchPushed = 0;
 
 void update_leds(uint8_t led0_val, uint8_t led1_val)
 {
-	if (k_mutex_lock(&mutexLEDs, K_FOREVER) == 0) {
+	if (k_mutex_lock(&mutexLEDs, K_FOREVER) == 0)
+	{
 		gpio_pin_set_dt(&led0, led0_val);
 		gpio_pin_set_dt(&led1, led1_val);
 		k_mutex_unlock(&mutexLEDs);
@@ -40,11 +41,13 @@ void update_leds(uint8_t led0_val, uint8_t led1_val)
 static void led0_task(void *p1, void *p2, void *p3)
 {
 	int i, nbIter = 100000;
-	while(1){
-		for(i=0; i<nbIter; i++){
-			update_leds(1,0);
+	while (1)
+	{
+		for (i = 0; i < nbIter; i++)
+		{
+			update_leds(1, 0);
 		}
-		update_leds(0,0);
+		update_leds(0, 0);
 		k_msleep(1000);
 	}
 }
@@ -52,11 +55,13 @@ static void led0_task(void *p1, void *p2, void *p3)
 static void led1_task(void *p1, void *p2, void *p3)
 {
 	int i, nbIter = 200000;
-	while(1){
-		for(i=0; i<nbIter; i++){
-			update_leds(0,1);
+	while (1)
+	{
+		for (i = 0; i < nbIter; i++)
+		{
+			update_leds(0, 1);
 		}
-		update_leds(0,0);
+		update_leds(0, 0);
 		k_msleep(2000);
 	}
 }
@@ -64,22 +69,26 @@ static void led1_task(void *p1, void *p2, void *p3)
 static void sw0_task(void *p1, void *p2, void *p3)
 {
 	int i, nbIter = 500000;
-	while(1){
-		if(switchPushed==1){
+	while (1)
+	{
+		if (switchPushed == 1)
+		{
 			switchPushed = 0;
-			for(i=0; i<nbIter; i++){
-				update_leds(1,1);
+			for (i = 0; i < nbIter; i++)
+			{
+				update_leds(1, 1);
 			}
-			update_leds(0,0);
+			update_leds(0, 0);
 		}
-		k_msleep(10);
+		k_yield();
 	}
 }
 
 void sw0_pressed_callback(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
 	LOG_INF("Switch pressed at %d" PRIu32 "\n", k_cycle_get_32());
-	if((pins & (1 << sw0.pin)) != 0){
+	if ((pins & (1 << sw0.pin)) != 0)
+	{
 		switchPushed = 1;
 	}
 }
@@ -105,22 +114,26 @@ uint8_t init_switches()
 {
 	uint8_t returned = 0;
 
-	if (!device_is_ready(sw0.port)) {
-		LOG_ERR("Error: Switch device %s is not ready.",sw0.port->name);
+	if (!device_is_ready(sw0.port))
+	{
+		LOG_ERR("Error: Switch device %s is not ready.", sw0.port->name);
 		returned = -1;
 	}
 
-	if (!returned && gpio_pin_configure_dt(&sw0, GPIO_INPUT) != 0) {
+	if (!returned && gpio_pin_configure_dt(&sw0, GPIO_INPUT) != 0)
+	{
 		LOG_ERR("Error: failed to configure switch %s pin %d.", sw0.port->name, sw0.pin);
 		returned = -2;
 	}
 
-	if (!returned && gpio_pin_interrupt_configure_dt(&sw0, GPIO_INT_EDGE_TO_ACTIVE) != 0) {
+	if (!returned && gpio_pin_interrupt_configure_dt(&sw0, GPIO_INT_EDGE_TO_ACTIVE) != 0)
+	{
 		LOG_ERR("Error: failed to configure interrupt on %s pin %d.", sw0.port->name, sw0.pin);
 		returned = -3;
 	}
 
-	if (!returned) {
+	if (!returned)
+	{
 		gpio_init_callback(&sw0_cb_data, sw0_pressed_callback, BIT(sw0.pin));
 		gpio_add_callback(sw0.port, &sw0_cb_data);
 	}
