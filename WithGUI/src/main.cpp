@@ -1,8 +1,12 @@
-/*
- * Copyright (c) 2016 Intel Corporation
- *
- * SPDX-License-Identifier: Apache-2.0
- */
+/**
+  ******************************************************************************
+  * @file    main.c
+  * @author  P. COURBIN
+  * @version V1.0
+  * @date    13-01-2023
+  * @brief   WithGUI version
+  ******************************************************************************
+*/
 
 #include <zephyr.h>
 #include <logging/log.h>

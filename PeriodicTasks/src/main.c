@@ -1,8 +1,12 @@
-/*
- * Copyright (c) 2016 Intel Corporation
- *
- * SPDX-License-Identifier: Apache-2.0
- */
+/**
+  ******************************************************************************
+  * @file    main.c
+  * @author  P. COURBIN
+  * @version V1.0
+  * @date    13-01-2023
+  * @brief   PeriodicTasks version
+  ******************************************************************************
+*/
 
 #include <zephyr.h>
 #include <kernel.h>
@@ -13,8 +17,8 @@ LOG_MODULE_REGISTER(app);
 
 typedef struct task_t
 {
+	char name[20];
 	struct k_thread thread_p;
-	k_tid_t tid;
 	struct z_thread_stack_element *thread_stack;
 	int start;
 	int period;
@@ -30,8 +34,8 @@ static K_THREAD_STACK_DEFINE(thread0_stack, STACKSIZE);
 static K_THREAD_STACK_DEFINE(thread1_stack, STACKSIZE);
 
 task tasks[] = {
-	{.thread_stack = thread0_stack, .start = 0000, .period = 1000, .cpu = 400, .priority = 1, .led0 = 1, .led1 = 0},
-	{.thread_stack = thread1_stack, .start = 1000, .period = 3000, .cpu = 700, .priority = 2, .led0 = 0, .led1 = 1}};
+	{.name = "T1", .thread_stack = thread0_stack, .start = 0000, .period = 1000, .cpu = 400, .priority = 1, .led0 = 1, .led1 = 0}, // Bleu
+	{.name = "T2", .thread_stack = thread1_stack, .start = 1000, .period = 3000, .cpu = 700, .priority = 2, .led0 = 0, .led1 = 1}}; // Jaune
 
 /* The devicetree node identifier for the "led0" alias. */
 #define LED0_NODE DT_ALIAS(led0)
@@ -73,6 +77,8 @@ void calibrateBurnCPU()
 
 static void generic_task_entry(void *p1, void *p2, void *p3)
 {
+	char *name = log_strdup(((task *)p1)->name);
+	uint16_t start = ((task *)p1)->start;
 	uint16_t period = ((task *)p1)->period;
 	uint16_t cpu = ((task *)p1)->cpu;
 	uint8_t led0 = ((task *)p1)->led0;
@@ -80,14 +86,14 @@ static void generic_task_entry(void *p1, void *p2, void *p3)
 
 	struct k_timer timer;
 	k_timer_init(&timer, NULL, NULL);
-	k_timer_start(&timer, K_MSEC(0), K_MSEC(period));
-	LOG_INF("Run task %p - Priority %d\n", ((task *)p1)->tid, ((task *)p1)->priority);
+	k_timer_start(&timer, K_MSEC(start), K_MSEC(period));
+	LOG_INF("Run task %s - Priority %d", name, ((task *)p1)->priority);
 	while (1)
 	{
 		k_timer_status_sync(&timer);
-		LOG_INF("START task %p\n", ((task *)p1)->tid);
+		LOG_INF("START task %s",name);
 		burnCPU(cpu, led0, led1);
-		LOG_INF("END task %p\n", ((task *)p1)->tid);
+		LOG_INF("END task %s", name);
 		update_leds(0, 0);
 	}
 }
@@ -122,12 +128,9 @@ void main(void)
 	for (i = 0; i < nb_task; i++)
 	{
 		LOG_INF("Prepare task %d\n\tstart %d\n\tperiod: %d\n\tcpu: %d\n\tpriority: %d\n", i, tasks[i].start, tasks[i].period, tasks[i].cpu, tasks[i].priority);
-		tasks[i].tid = k_thread_create(&tasks[i].thread_p, tasks[i].thread_stack, STACKSIZE,
-									   generic_task_entry, (void *)&tasks[i], NULL, NULL,
-									   K_PRIO_PREEMPT(tasks[i].priority), 0,
-									   K_MSEC(DELAY_START_TIME_MS + tasks[i].start));
-
-		if (tasks[i].tid == NULL)
-			return;
+		k_thread_create(&tasks[i].thread_p, tasks[i].thread_stack, STACKSIZE,
+						generic_task_entry, (void *)&tasks[i], NULL, NULL,
+						K_PRIO_PREEMPT(tasks[i].priority), 0,
+						K_MSEC(DELAY_START_TIME_MS + tasks[i].start));
 	}
 }
