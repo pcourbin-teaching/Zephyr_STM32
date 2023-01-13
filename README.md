@@ -13,7 +13,8 @@ This repository contains examples of codes used in teaching, particularly at [ES
      - 1 task per LED with sporadic lighting (using k_msleep)
      - 1 task allowing lighting the 2 LEDs when the button has been pressed (using interruption).
   - [Un overlay](NoGUI/zephyr/boards/stm32f429i_disc1.overlay) is defined to show how to add the declaration of a new external LED, not used in the proposed code.
-- [WithGUI](WithGUI/) - Using the board screen and an external sensor [BME680](https://www.bosch-sensortec.com/products/environmental-sensors/gas-sensors/bme680/) connected in I2C.
+- [WithGUI](WithGUI/) - Using the board screen, an image and an external sensor [BME680](https://www.bosch-sensortec.com/products/environmental-sensors/gas-sensors/bme680/) connected in I2C.
+Temperature and humidity values are added to a chart and regularly printed on the screen using labels.
   - Screen:
      - The [LVGL](https://lvgl.io/) library is used, from the Zephyr framework.
      - The appropriate configuration is made in the [.conf](WithGUI/zephyr/prj.conf) file of the project, in particular to activate the management of:
@@ -29,16 +30,16 @@ This repository contains examples of codes used in teaching, particularly at [ES
 
 Some details on versions used:
 
-| Tool                                                                        | Version                                                                                                          |
-|-----------------------------------------------------------------------------:|-------------------------------------------------------------------------------------------------------------------|
-| [PlatformIO (PIO)](https://platformio.org/)                                 | Core 6.1.5 - Home 3.4.3                                                                                          |
-| [Zephyr RTOS](https://docs.platformio.org/en/stable/frameworks/zephyr.html) | 2.7.1 (linked with PIO 6.1.5)                                                                                    |
-| [LVGL](https://docs.lvgl.io/7.11/)                                          | 7.6.1 (linked with [Zephyr 2.7.1](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/lib/gui/lvgl)) |
+| Tool | Version |
+|---|---|
+| [PlatformIO (PIO)](https://platformio.org/) | Core 6.1.5 - Home 3.4.3 |
+| [Zephyr RTOS](https://docs.platformio.org/en/stable/frameworks/zephyr.html) | 2.7.1 (linked with PIO 6.1.5) |
+| [LVGL](https://docs.lvgl.io/7.11/) | 7.6.1 (linked with [Zephyr 2.7.1](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/lib/gui/lvgl)) |
 
 Some useful links about the board:
 
 | Link | Details |
-|-----:|--------|
+|---|---|
 | [ST STM32F429I Discovery](https://docs.zephyrproject.org/2.7.0/boards/arm/stm32f429i_disc1/doc/index.html) | Details of the board on Zephyr doc |
 | [ST STM32F429I Discovery Pin Mapping](https://os.mbed.com/platforms/ST-Discovery-F429ZI/) | Pin mapping of the board, from MBED doc |
 | [ST STM32F429I Discovery Zephyr conf](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/boards/arm/stm32f429i_disc1) | Folder in Zephyr defining the board details |
@@ -46,7 +47,7 @@ Some useful links about the board:
 
 Some useful links about the Zephyr:
 | Link | Details |
-|-----:|--------|
+|---|---|
 | Zephyr Devicetree (DTS) and Overlay principles [1](https://docs.zephyrproject.org/2.7.0/guides/dts/howtos.html) [2](https://www.jaredwolff.com/optimize-zephyr-config-and-overlays/) | Details on how to use DTS and overlays |
 | [Basic Display](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/samples/drivers/display) | Example using basic Display code on Zephyr |
 | [LVGL]](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/samples/subsys/display/lvgl) | Example using LVGL and Display code on Zephyr |
