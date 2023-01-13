@@ -11,7 +11,7 @@ This repository contains examples of codes used in teaching, particularly at [ES
 - [NoGUI](NoGUI/) - Using the 2 LEDs on the board and the button.
    - 3 tasks are created:
      - 1 task per LED with sporadic lighting (using k_msleep)
-     - 1 task allowing to light the 2 LEDs when the button has been pressed (using interruption).
+     - 1 task allowing lighting the 2 LEDs when the button has been pressed (using interruption).
   - [Un overlay](NoGUI/zephyr/boards/stm32f429i_disc1.overlay) is defined to show how to add the declaration of a new external LED, not used in the proposed code.
 - [WithGUI](WithGUI/) - Using the board screen and an external sensor [BME680](https://www.bosch-sensortec.com/products/environmental-sensors/gas-sensors/bme680/) connected in I2C.
   - Screen:
@@ -35,7 +35,7 @@ Some details on versions used:
 | [Zephyr RTOS](https://docs.platformio.org/en/stable/frameworks/zephyr.html) | 2.7.1 (linked with PIO 6.1.5)                                                                                    |
 | [LVGL](https://docs.lvgl.io/7.11/)                                          | 7.6.1 (linked with [Zephyr 2.7.1](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/lib/gui/lvgl)) |
 
-Some useful links:
+Some useful links about the board:
 
 | Link | Details |
 |-----:|--------|
@@ -44,27 +44,22 @@ Some useful links:
 | [ST STM32F429I Discovery Zephyr conf](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/boards/arm/stm32f429i_disc1) | Folder in Zephyr defining the board details |
 | [ST STM32F429I Discovery Zephyr DTS](https://github.com/zephyrproject-rtos/zephyr/blob/zephyr-v2.7.1/boards/arm/stm32f429i_disc1/stm32f429i_disc1.dts) | DTS file in Zephyr defining the board details |
 
+Some useful links about the Zephyr:
+| Link | Details |
+|-----:|--------|
+| Zephyr Devicetree (DTS) and Overlay principles [1](https://docs.zephyrproject.org/2.7.0/guides/dts/howtos.html) [2](https://www.jaredwolff.com/optimize-zephyr-config-and-overlays/) | Details on how to use DTS and overlays |
+| [Basic Display](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/samples/drivers/display) | Example using basic Display code on Zephyr |
+| [LVGL]](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/samples/subsys/display/lvgl) | Example using LVGL and Display code on Zephyr |
+| [Zephyr Threads](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/tests/kernel/threads) | Doc on Thread in Zephyr |
+| [Sleep and periodic tasks](https://lists.zephyrproject.org/g/users/topic/drift_through_k_sleep_or/80362499) | Discussion on how to create periodic tasks on Zephyr |
 
-Refs:
-- Zephyr Devicetree (DTS) and Overlay principles :
-  - https://docs.zephyrproject.org/2.7.0/guides/dts/howtos.html?highlight=overlay
-  - https://www.jaredwolff.com/optimize-zephyr-config-and-overlays/
-- Display
-  - Display Sample : https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/samples/drivers/display
-  - LVGL Sample : https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/samples/subsys/display/lvgl
+TODO, integrate touch screen on Zephyr, some useful links :
+- Code using LVGL and the touch screen using HAL: https://github.com/lvgl/lv_port_stm32f429_disco/blob/master/hal_stm_lvgl/stm32f429i_discovery.h
+- Code of DTS for the board on last version of Zephyr https://github.com/zephyrproject-rtos/zephyr/blob/main/boards/arm/stm32f429i_disc1/stm32f429i_disc1.dts
+- Example of PlatformIO project using LVGL and BSP (BSP-stmpe811) to integrate the touch screen: https://github.com/lvgl/lv_platformio/blob/master/platformio.ini
 
-- Zephyr
-  - Create Thread : https://github.com/zephyrproject-rtos/zephyr/blob/zephyr-v2.7.1/tests/kernel/threads/dynamic_thread/src/main.c
-  - https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/tests/kernel/threads
-  - Sleep and periodic tasks with timers or work queue : https://lists.zephyrproject.org/g/users/topic/drift_through_k_sleep_or/80362499?p=
-Touch screen, see https://github.com/lvgl/lv_port_stm32f429_disco/blob/master/hal_stm_lvgl/stm32f429i_discovery.h
-// https://github.com/CliffsDover/zephyr_lvgl_nrf52_pca10040_ili9341/blob/master/nrf52_pca10040.overlay
-// https://github.com/zephyrproject-rtos/zephyr/blob/v2.7-branch/boards/arm/stm32f429i_disc1/stm32f429i_disc1.dts
-// https://github.com/zephyrproject-rtos/zephyr/blob/main/boards/arm/stm32f429i_disc1/stm32f429i_disc1.dts
-// https://github.com/lvgl/lv_platformio/blob/master/platformio.ini
-
-
-Scheduling ? https://academy.nordicsemi.com/topic/exercise-3-7/
+TODO, see examples of teaching resources using Zephyr:
+- https://academy.nordicsemi.com/topic/exercise-3-7/
 
 
 [license-shield]: https://img.shields.io/github/license/pcourbin-teaching/Zephyr_STM32.svg
