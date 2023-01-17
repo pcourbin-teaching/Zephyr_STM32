@@ -1,0 +1,25 @@
+/ {
+        aliases {
+                led0 = &orange_led_3;
+                led1 = &green_led_4;
+                bme680 = &bme680;
+        };
+        
+        zephyr,user {
+		/* adjust channel number according to pinmux in board.dts */
+		io-channels = <&adc1 1>;/* ADC1_1 on pin PA_1 */
+	};
+};
+
+&adc1 {
+	pinctrl-0 = <&adc1_in1_pa1>;
+	status = "okay";
+};
+
+&i2c3 {
+        bme680: bme680@77 {
+		compatible = "bosch,bme680";
+		reg = <0x77>;
+		label = "BME680";
+	};
+};

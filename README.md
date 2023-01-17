@@ -7,7 +7,7 @@ Examples using [Zephyr RTOS](https://www.zephyrproject.org/) on [ST STM32F429I D
 
 This repository contains examples of codes used in teaching, particularly at [ESIEA](https://www.esiea.fr/).
 
-3 examples are proposed:
+4 examples are proposed:
 - [NoGUI](NoGUI/) - Using the 2 LEDs on the board and the button.
    - 3 tasks are created:
      - 1 task per LED with sporadic lighting (using k_msleep)
@@ -27,6 +27,7 @@ Temperature and humidity values are added to a chart and regularly printed on th
        - I2C used by the BME680.
      - [An overlay](WithGUI/zephyr/boards/stm32f429i_disc1.overlay) is defined to specify that the BME680 is connected to **I2C 3** of the board, with address **0x77**.
 - [PeriodicTasks](PeriodicTasks/) - Creation of 2 periodic tasks (using timers) with display on the LEDs integrated into the board and with a configurable duration (use of 'nop' to simulate the use of the processor).
+- [Samples](Samples/) - No task used, only example using DISPLAY, BME680 and ADC (:warning: only one channel is allowed on SMT32 and this version of Zephyr).
 
 Some details on versions used:
 
@@ -50,7 +51,7 @@ Some useful links about the Zephyr:
 |---|---|
 | Zephyr Devicetree (DTS) and Overlay principles [1](https://docs.zephyrproject.org/2.7.0/guides/dts/howtos.html) [2](https://www.jaredwolff.com/optimize-zephyr-config-and-overlays/) | Details on how to use DTS and overlays |
 | [Basic Display](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/samples/drivers/display) | Example using basic Display code on Zephyr |
-| [LVGL]](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/samples/subsys/display/lvgl) | Example using LVGL and Display code on Zephyr |
+| [LVGL](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/samples/subsys/display/lvgl) | Example using LVGL and Display code on Zephyr |
 | [Zephyr Threads](https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/tests/kernel/threads) | Doc on Thread in Zephyr |
 | [Sleep and periodic tasks](https://lists.zephyrproject.org/g/users/topic/drift_through_k_sleep_or/80362499) | Discussion on how to create periodic tasks on Zephyr |
 
