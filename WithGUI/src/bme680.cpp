@@ -5,16 +5,16 @@ LOG_MODULE_DECLARE(app);
 
 void BME680::init()
 {
-    dev = device_get_binding(BME680_DEV_NAME);
-    if (dev == NULL)
+    dev = DEVICE_DT_GET(BME680_DEV); 
+    if (!device_is_ready(dev))
     {
-        LOG_ERR("Could not get %s device. Using false data.", BME680_DEV_NAME);
+        LOG_ERR("Could not get %s device. Using false data.", dev->name);
     }
 }
 
 void BME680::update_values()
 {
-    if (dev != NULL)
+    if (device_is_ready(dev))
     {
         sensor_sample_fetch(dev);
         sensor_channel_get(dev, SENSOR_CHAN_AMBIENT_TEMP, &temperature);

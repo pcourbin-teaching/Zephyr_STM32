@@ -5,7 +5,7 @@
 #include <lvgl.h>
 #include <string.h>
 
-#define DISPLAY_DEV_NAME DT_LABEL(DT_INST(0, ilitek_ili9340))
+#define DISPLAY_DEV DT_INST(0, ilitek_ili9340)
 
 #define TEXT_MAX_SIZE 2000
 #define CHART_DEFAULT_WIDTH 230

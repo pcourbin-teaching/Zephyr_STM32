@@ -62,10 +62,10 @@ void myDisplay::lv_create_chart()
 
 void myDisplay::init(bool with_chart)
 {
-    dev = device_get_binding(DISPLAY_DEV_NAME);
-    if (dev == NULL)
+    dev = DEVICE_DT_GET(DISPLAY_DEV);
+    if (!device_is_ready(dev))
     {
-        LOG_ERR("Could not get %s device.", DISPLAY_DEV_NAME);
+        LOG_ERR("Could not get %s device.", dev->name);
         return;
     }
     display_set_orientation(dev, DISPLAY_ORIENTATION_ROTATED_180);

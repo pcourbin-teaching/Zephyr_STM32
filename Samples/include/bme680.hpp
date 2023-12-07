@@ -3,7 +3,7 @@
 
 #include <drivers/sensor.h>
 
-#define BME680_DEV_NAME DT_LABEL(DT_INST(0, bosch_bme680))
+#define BME680_DEV DT_CHOSEN(perso_bme680) // OR DT_ALIAS(bme680)
 
 class myBME680
 {
