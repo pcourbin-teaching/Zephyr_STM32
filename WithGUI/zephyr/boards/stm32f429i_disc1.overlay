@@ -1,20 +1,52 @@
 
 / {
-	aliases {
-		led0 = &orange_led_3;
-		led1 = &green_led_4;
-		bme680 = &bme680;
-	};
+    aliases {
+        led0 = &green_led_3;
+        led1 = &red_led_4;
+    };
 
-	chosen {
-		perso,bme680 = &bme680;
-	};
+    chosen {
+        perso,bme680 = &bme680;
+    };
+};
+
+&spi5 {
+    /* Cannot use the new configuration c ILI9341, so reuse previous configuration with ILI9340
+    https: //github.com/zephyrproject-rtos/zephyr/commit/4537de861b14ed5189c616d549d03b4d1385d424 */
+    ili9341: ili9341@0 {
+        compatible = "ilitek,ili9340";
+        label = "ILI9340";
+        spi-max-frequency = <15151515>;
+        reg = <0>;
+        cmd-data-gpios = <&gpiod 13 GPIO_ACTIVE_LOW>;
+        width = <240>;
+        height = <320>;
+        rotation = <0>;
+        /delete-property/ pwctrla;
+        /delete-property/ pwctrlb;
+        /delete-property/ timctrla;
+        /delete-property/ timctrlb;
+        /delete-property/ pwseqctrl;
+        /delete-property/ pumpratioctrl;
+        /delete-property/ disctrl;
+        /delete-property/ vmctrl1;
+        /delete-property/ vmctrl2;
+        /delete-property/ enable3g;
+        /delete-property/ ifctl;
+        /delete-property/ ifmode;
+        /delete-property/ gamset;
+        /delete-property/ frmctr1;
+        /delete-property/ pwctrl1;
+        /delete-property/ pwctrl2;
+        /delete-property/ pgamctrl;
+        /delete-property/ ngamctrl;
+    };
 };
 
 &i2c3 {
-	bme680: bme680@77 {
-		compatible = "bosch,bme680";
-		reg = <0x77>;
-		label = "BME680";
-	};
+    bme680: bme680@77 {
+        compatible = "bosch,bme680";
+        reg = <0x77>;
+        label = "BME680";
+    };
 };

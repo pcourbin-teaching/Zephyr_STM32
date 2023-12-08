@@ -1,10 +1,9 @@
 #ifndef ADC_HPP
 #define ADC_HPP
 
-// See https://github.com/zephyrproject-rtos/zephyr/tree/zephyr-v2.7.1/samples/drivers/adc
+// See https://github.com/zephyrproject-rtos/zephyr/blob/zephyr-v3.5.0/samples/drivers/adc/
 
-#include <drivers/adc.h>
-
+#include <zephyr/drivers/adc.h>
 #define ADC_NODE DT_PHANDLE(DT_PATH(zephyr_user), io_channels)
 #define ADC_CHANNEL DT_IO_CHANNELS_INPUT_BY_IDX(DT_PATH(zephyr_user), 0)
 

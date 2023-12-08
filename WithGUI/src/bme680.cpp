@@ -1,18 +1,18 @@
 #include "bme680.hpp"
 
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(app);
 
-void BME680::init()
+void myBME680::init()
 {
-    dev = DEVICE_DT_GET(BME680_DEV); 
+    dev = DEVICE_DT_GET(BME680_DEV);
     if (!device_is_ready(dev))
     {
         LOG_ERR("Could not get %s device. Using false data.", dev->name);
     }
 }
 
-void BME680::update_values()
+void myBME680::update_values()
 {
     if (device_is_ready(dev))
     {
@@ -28,12 +28,12 @@ void BME680::update_values()
     }
 }
 
-double BME680::get_temperature()
+double myBME680::get_temperature()
 {
     return sensor_value_to_double(&temperature);
 }
 
-double BME680::get_humidity()
+double myBME680::get_humidity()
 {
     return sensor_value_to_double(&humidity);
 }

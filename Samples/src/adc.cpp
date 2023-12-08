@@ -1,8 +1,7 @@
 #include "adc.hpp"
 
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(app);
-
 void myADC::init()
 {
     channel_id = ADC_CHANNEL;

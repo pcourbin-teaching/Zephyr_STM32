@@ -1,18 +1,18 @@
 /**
-  ******************************************************************************
-  * @file    main.c
-  * @author  P. COURBIN
-  * @version V1.0
-  * @date    13-01-2023
-  * @brief   PeriodicTasks version
-  ******************************************************************************
-*/
+ ******************************************************************************
+ * @file    main.c
+ * @author  P. COURBIN
+ * @version V2.0
+ * @date    08-12-2023
+ * @brief   PeriodicTasks version
+ ******************************************************************************
+ */
 
-#include <zephyr.h>
-#include <kernel.h>
-#include <drivers/gpio.h>
+#include <zephyr/kernel.h>
+#include <zephyr/kernel.h>
+#include <zephyr/drivers/gpio.h>
 
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(app);
 
 typedef struct task_t
@@ -29,12 +29,12 @@ typedef struct task_t
 } task;
 
 #define DELAY_START_TIME_MS 5000
-#define STACKSIZE (4096)
+#define STACKSIZE (1024)
 static K_THREAD_STACK_DEFINE(thread0_stack, STACKSIZE);
 static K_THREAD_STACK_DEFINE(thread1_stack, STACKSIZE);
 
 task tasks[] = {
-	{.name = "T1", .thread_stack = thread0_stack, .start = 0000, .period = 1000, .cpu = 400, .priority = 1, .led0 = 1, .led1 = 0}, // Bleu
+	{.name = "T1", .thread_stack = thread0_stack, .start = 0000, .period = 1000, .cpu = 400, .priority = 1, .led0 = 1, .led1 = 0},	// Bleu
 	{.name = "T2", .thread_stack = thread1_stack, .start = 1000, .period = 3000, .cpu = 700, .priority = 2, .led0 = 0, .led1 = 1}}; // Jaune
 
 /* The devicetree node identifier for the "led0" alias. */
@@ -77,7 +77,7 @@ void calibrateBurnCPU()
 
 static void generic_task_entry(void *p1, void *p2, void *p3)
 {
-	char *name = log_strdup(((task *)p1)->name);
+	char *name = ((task *)p1)->name;
 	uint16_t start = ((task *)p1)->start;
 	uint16_t period = ((task *)p1)->period;
 	uint16_t cpu = ((task *)p1)->cpu;
@@ -91,7 +91,7 @@ static void generic_task_entry(void *p1, void *p2, void *p3)
 	while (1)
 	{
 		k_timer_status_sync(&timer);
-		LOG_INF("START task %s",name);
+		LOG_INF("START task %s", name);
 		burnCPU(cpu, led0, led1);
 		LOG_INF("END task %s", name);
 		update_leds(0, 0);
