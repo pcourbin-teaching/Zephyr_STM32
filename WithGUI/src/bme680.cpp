@@ -1,11 +1,11 @@
 #include "bme680.hpp"
 
 #include <zephyr/logging/log.h>
-LOG_MODULE_DECLARE(app);
+LOG_MODULE_REGISTER(app_bme680);
 
-void myBME680::init()
+void myBME680::init(const struct device *bme680_dev)
 {
-    dev = DEVICE_DT_GET(BME680_DEV);
+    dev = bme680_dev;
     if (!device_is_ready(dev))
     {
         LOG_ERR("Could not get %s device. Using false data.", dev->name);

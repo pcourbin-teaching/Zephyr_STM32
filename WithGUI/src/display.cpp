@@ -2,7 +2,7 @@
 #include "ESIEALogo.hpp"
 
 #include <zephyr/logging/log.h>
-LOG_MODULE_DECLARE(app);
+LOG_MODULE_REGISTER(app_display);
 
 void myDisplay::task_handler()
 {
@@ -121,9 +121,9 @@ void myDisplay::lv_create_chart()
     lv_obj_update_layout(chart);
 }
 
-void myDisplay::init(bool with_chart)
+void myDisplay::init(const struct device *display_dev, bool with_chart)
 {
-    dev = DEVICE_DT_GET(DISPLAY_DEV);
+    dev = display_dev;
     if (!device_is_ready(dev))
     {
         LOG_ERR("Could not get %s device.", dev->name);

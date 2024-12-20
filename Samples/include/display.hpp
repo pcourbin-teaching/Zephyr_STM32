@@ -5,8 +5,6 @@
 #include <lvgl.h>
 #include <string.h>
 
-#define DISPLAY_DEV DT_CHOSEN(zephyr_display)
-
 #define TEXT_MAX_SIZE 2000
 #define CHART_DEFAULT_WIDTH 230
 #define CHART_DEFAULT_HEIGHT 100
@@ -38,7 +36,7 @@ public:
     void lv_create_btn_clear();
     void lv_create_text();
     void lv_create_chart();
-    void init(bool with_chart = true);
+    void init(const struct device *display_dev, bool with_chart = true);
 
     void chart_add_temperature(long value);
     void chart_add_humidity(long value);
