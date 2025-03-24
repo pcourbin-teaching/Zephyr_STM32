@@ -12,9 +12,9 @@ void myDisplay::task_handler()
 void myDisplay::lv_create_logo()
 {
     /*Image From variable*/
-    logo = lv_img_create(lv_scr_act());
-    LV_IMG_DECLARE(ESIEALogo);
-    lv_img_set_src(logo, &ESIEALogo);
+    logo = lv_image_create(lv_scr_act());
+    LV_IMAGE_DECLARE(ESIEALogo);
+    lv_image_set_src(logo, &ESIEALogo);
     lv_obj_align(logo, LV_ALIGN_TOP_MID, 0, 5);
     lv_obj_update_layout(logo);
 }
@@ -71,7 +71,7 @@ void myDisplay::lv_create_btn_clear()
 static void btn_clear_event(lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
-    lv_obj_t *btn = lv_event_get_target(e);
+    lv_obj_t *btn = (lv_obj_t *)lv_event_get_target(e);
     myDisplay *display = (myDisplay *)lv_event_get_user_data(e);
     if (code == LV_EVENT_CLICKED)
     {
@@ -85,10 +85,10 @@ void myDisplay::lv_create_text()
 {
     text = lv_label_create(lv_scr_act());
     lv_obj_set_style_text_font(text, &lv_font_montserrat_12, 0);
-    int y_base = logo->coords.y2;
+    int y_base = lv_obj_get_y2(logo);
     if (chart != NULL)
     {
-        y_base = chart->coords.y2;
+        y_base = lv_obj_get_y2(chart);
     }
     lv_obj_set_pos(text, 10, y_base + 5);
 
@@ -105,7 +105,7 @@ void myDisplay::lv_create_chart()
     chart = lv_chart_create(lv_scr_act());
     lv_obj_set_size(chart, CHART_DEFAULT_WIDTH, CHART_DEFAULT_HEIGHT);
 
-    lv_obj_set_pos(chart, (lv_obj_get_width(lv_scr_act()) - CHART_DEFAULT_WIDTH) / 2, logo->coords.y2 + 5);
+    lv_obj_set_pos(chart, (lv_obj_get_width(lv_scr_act()) - CHART_DEFAULT_WIDTH) / 2, lv_obj_get_y2(logo) + 5);
 
     lv_chart_set_type(chart, LV_CHART_TYPE_LINE); /*Show lines and points too*/
     lv_chart_set_update_mode(chart, LV_CHART_UPDATE_MODE_SHIFT);

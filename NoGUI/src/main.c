@@ -145,14 +145,14 @@ uint8_t init_switches()
     return returned;
 }
 
-void main(void)
+int main(void)
 {
 
     struct k_thread led0_t, led1_t, sw0_t;
     if (init_leds() < 0 || init_switches() < 0)
     {
         LOG_ERR("Error: %s", "LED or Switch init failed");
-        return;
+        return -1;
     }
 
     k_thread_create(&led0_t, led0_stack, K_THREAD_STACK_SIZEOF(led0_stack),
