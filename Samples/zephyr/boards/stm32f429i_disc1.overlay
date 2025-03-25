@@ -22,7 +22,7 @@
     };
 };
 
-/* https://docs.zephyrproject.org/3.6.0/build/dts/api/bindings/adc/st,stm32-adc.html */
+/* https://docs.zephyrproject.org/4.1.0/build/dts/api/bindings/adc/st,stm32-adc.html */
 &adc1 {
     pinctrl-0 = <&adc1_in1_pa1>;
     pinctrl-names = "default";
