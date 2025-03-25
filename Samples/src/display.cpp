@@ -71,7 +71,7 @@ void myDisplay::lv_create_btn_clear()
 static void btn_clear_event(lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
-    lv_obj_t *btn = (lv_obj_t *)lv_event_get_target(e);
+    //lv_obj_t *btn = (lv_obj_t *)lv_event_get_target(e);
     myDisplay *display = (myDisplay *)lv_event_get_user_data(e);
     if (code == LV_EVENT_CLICKED)
     {
