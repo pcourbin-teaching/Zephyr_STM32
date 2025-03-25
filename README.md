@@ -22,7 +22,7 @@ Temperature and humidity values are added to a chart and regularly printed on th
        - DISPLAY
        - INPUT
        - LVGL and its components (buttons, charts, labels, etc.)
-       - Debugging with [SEGGER SystemView](https://www.segger.com/products/development-tools/systemview/) available on the SWD connector.
+       - Debugging with [SEGGER SystemView](https://www.segger.com/products/development-tools/systemview/) of [PERCEPIO](https://percepio.com/) available on the SWD connector.
      - The appropriate configuration is made in the [.conf](WithGUI/zephyr/boards/stm32f429i_disc1.conf) file of the board, in particular to activate the management of:
        - ILI9341 driver used by the screen,
        - I2C used by the BME680.
@@ -34,7 +34,7 @@ Some details on versions used:
 
 | Tool | Version |
 |---|---|
-| [PlatformIO (PIO)](https://platformio.org/) | Core 6.1.16 - Home 3.4.4 |
+| [PlatformIO (PIO)](https://platformio.org/) | Core 6.1.18 - Home 3.4.4 |
 | [Zephyr RTOS](https://docs.platformio.org/en/stable/frameworks/zephyr.html) | 4.1.0 (See all versions available for PIO [here](https://registry.platformio.org/tools/platformio/framework-zephyr/versions)) |
 | [LVGL](https://docs.lvgl.io/9.2/) | 9.2 (linked with [Zephyr 4.1.0](https://github.com/zephyrproject-rtos/zephyr/tree/v4.1-branch/modules/lvgl) |
 
