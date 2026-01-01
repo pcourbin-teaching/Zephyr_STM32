@@ -113,7 +113,7 @@ uint8_t init_leds()
 	return returned;
 }
 
-void main(void)
+int main(void)
 {
 
 	uint8_t i, nb_task = sizeof(tasks) / sizeof(tasks[0]);
@@ -121,7 +121,7 @@ void main(void)
 	if (init_leds() < 0)
 	{
 		LOG_ERR("Error: %s", "LED init failed");
-		return;
+		return -1;
 	}
 
 	calibrateBurnCPU();
@@ -132,5 +132,8 @@ void main(void)
 						generic_task_entry, (void *)&tasks[i], NULL, NULL,
 						K_PRIO_PREEMPT(tasks[i].priority), 0,
 						K_MSEC(DELAY_START_TIME_MS + tasks[i].start));
+		k_thread_name_set(&tasks[i].thread_p, tasks[i].name);
 	}
+
+	return 0;
 }

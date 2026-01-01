@@ -22,7 +22,7 @@ Temperature and humidity values are added to a chart and regularly printed on th
        - DISPLAY
        - INPUT
        - LVGL and its components (buttons, charts, labels, etc.)
-       - Debugging with [SEGGER SystemView](https://www.segger.com/products/development-tools/systemview/) available on the SWD connector.
+       - Debugging with [SEGGER SystemView](https://www.segger.com/products/development-tools/systemview/) of [PERCEPIO](https://percepio.com/) available on the SWD connector.
      - The appropriate configuration is made in the [.conf](WithGUI/zephyr/boards/stm32f429i_disc1.conf) file of the board, in particular to activate the management of:
        - ILI9341 driver used by the screen,
        - I2C used by the BME680.
@@ -34,26 +34,26 @@ Some details on versions used:
 
 | Tool | Version |
 |---|---|
-| [PlatformIO (PIO)](https://platformio.org/) | Core 6.1.16 - Home 3.4.4 |
-| [Zephyr RTOS](https://docs.platformio.org/en/stable/frameworks/zephyr.html) | 3.6.0 (See all versions available for PIO [here](https://registry.platformio.org/tools/platformio/framework-zephyr/versions)) |
-| [LVGL](https://docs.lvgl.io/8.3/) | 8.3.11 (linked with [Zephyr 3.6.0](https://github.com/zephyrproject-rtos/zephyr/tree/v3.6-branch/modules/lvgl), see [Changelog](https://github.com/zephyrproject-rtos/lvgl/blob/zephyr/docs/CHANGELOG.md) |
+| [PlatformIO (PIO)](https://platformio.org/) | Core 6.1.18 - Home 3.4.4 |
+| [Zephyr RTOS](https://docs.platformio.org/en/stable/frameworks/zephyr.html) | [4.2.1](https://docs.zephyrproject.org/4.2.1/) (See all versions available for PIO [here](https://registry.platformio.org/tools/platformio/framework-zephyr/versions)) |
+| [LVGL](https://docs.lvgl.io/9.2/) | 9.2 (linked with [Zephyr 4.2.1](https://github.com/zephyrproject-rtos/zephyr/tree/v4.2-branch/modules/lvgl)) |
 
 Some useful links about the board:
 
 | Link | Details |
 |---|---|
-| [ST STM32F429I Discovery](https://docs.zephyrproject.org/3.6.0/boards/arm/stm32f429i_disc1/doc/index.html) | Details of the board on Zephyr doc |
+| [ST STM32F429I Discovery](https://docs.zephyrproject.org/4.2.1/boards/st/stm32f429i_disc1/doc/index.html) | Details of the board on Zephyr doc |
 | [ST STM32F429I Discovery Pin Mapping](https://os.mbed.com/platforms/ST-Discovery-F429ZI/) | Pin mapping of the board, from MBED doc |
-| [ST STM32F429I Discovery Zephyr conf](https://github.com/zephyrproject-rtos/zephyr/tree/v3.6-branch/boards/arm/stm32f429i_disc1) | Folder in Zephyr defining the board details |
-| [ST STM32F429I Discovery Zephyr DTS](https://github.com/zephyrproject-rtos/zephyr/blob/v3.6-branch/boards/arm/stm32f429i_disc1/stm32f429i_disc1.dts) | DTS file in Zephyr defining the board details |
+| [ST STM32F429I Discovery Zephyr conf](https://github.com/zephyrproject-rtos/zephyr/tree/v4.2-branch/boards/st/stm32f429i_disc1) | Folder in Zephyr defining the board details |
+| [ST STM32F429I Discovery Zephyr DTS](https://github.com/zephyrproject-rtos/zephyr/blob/v4.2-branch/boards/st/stm32f429i_disc1/stm32f429i_disc1.dts) | DTS file in Zephyr defining the board details |
 
 Some useful links about the Zephyr:
 | Link | Details |
 |---|---|
-| Zephyr Devicetree (DTS) and Overlay principles [1](https://docs.zephyrproject.org/3.6.0/build/dts/howtos.html) [2](https://www.jaredwolff.com/optimize-zephyr-config-and-overlays/) | Details on how to use DTS and overlays |
-| [Basic Display](https://github.com/zephyrproject-rtos/zephyr/tree/v3.6-branch/samples/drivers/display) | Example using basic Display code on Zephyr |
-| [LVGL](https://github.com/zephyrproject-rtos/zephyr/tree/v3.6-branch/samples/subsys/display/lvgl) | Example using LVGL and Display code on Zephyr |
-| [Zephyr Threads](https://github.com/zephyrproject-rtos/zephyr/tree/v3.6-branch/tests/kernel/threads) | Doc on Thread in Zephyr |
+| Zephyr Devicetree (DTS) and Overlay principles [1](https://docs.zephyrproject.org/4.2.1/build/dts/howtos.html) [2](https://www.jaredwolff.com/optimize-zephyr-config-and-overlays/) | Details on how to use DTS and overlays |
+| [Basic Display](https://github.com/zephyrproject-rtos/zephyr/tree/v4.2-branch/samples/drivers/display) | Example using basic Display code on Zephyr |
+| [LVGL](https://github.com/zephyrproject-rtos/zephyr/tree/v4.2-branch/samples/subsys/display/lvgl) | Example using LVGL and Display code on Zephyr |
+| [Zephyr Threads](https://github.com/zephyrproject-rtos/zephyr/tree/v4.2-branch/tests/kernel/threads) | Doc on Thread in Zephyr |
 | [Sleep and periodic tasks](https://lists.zephyrproject.org/g/users/topic/drift_through_k_sleep_or/80362499) | Discussion on how to create periodic tasks on Zephyr |
 
 TODO

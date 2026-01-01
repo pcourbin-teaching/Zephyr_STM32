@@ -69,4 +69,6 @@ int main(void)
 
 		k_msleep(lv_task_handler());
 	}
+
+	return 0;
 }

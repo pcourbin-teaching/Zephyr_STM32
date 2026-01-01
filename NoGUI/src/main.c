@@ -89,7 +89,7 @@ static void sw0_task(void *p1, void *p2, void *p3)
 
 void sw0_pressed_callback(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
-    LOG_INF("Switch pressed at %d" PRIu32 "\n", k_cycle_get_32());
+    LOG_INF("Switch pressed at %u\n", k_cycle_get_32());
     if ((pins & (1 << sw0.pin)) != 0)
     {
         switchPushed = 1;
@@ -145,14 +145,14 @@ uint8_t init_switches()
     return returned;
 }
 
-void main(void)
+int main(void)
 {
 
     struct k_thread led0_t, led1_t, sw0_t;
     if (init_leds() < 0 || init_switches() < 0)
     {
         LOG_ERR("Error: %s", "LED or Switch init failed");
-        return;
+        return -1;
     }
 
     k_thread_create(&led0_t, led0_stack, K_THREAD_STACK_SIZEOF(led0_stack),
@@ -164,4 +164,6 @@ void main(void)
     k_thread_create(&sw0_t, sw0_stack, K_THREAD_STACK_SIZEOF(sw0_stack),
                     sw0_task, NULL, NULL, NULL,
                     3, 0, K_NO_WAIT);
+    
+    return 0;
 }

@@ -1,0 +1,21 @@
+/ {
+    leds {
+        // Add LED on PG5
+        external_led: ext_led {
+            gpios = <&piod 8 0>; //D12 on Arduino Due
+            label = "EXT LED";
+        };
+    };
+    gpio_keys {
+		compatible = "gpio-keys";
+		user_button: button {
+			label = "EXT BTN";
+			gpios = <&piod 7 GPIO_ACTIVE_LOW>; // D11 on Arduino Due
+		};
+	};
+    aliases {
+        led0 = &yellow_led; // D13 on Arduino Due
+        led1 = &external_led; // D12 on Arduino Due
+        sw0 = &user_button; // D11 on Arduino Due
+    };
+};

@@ -106,4 +106,6 @@ int main(void)
 					bme680_task, NULL, NULL, NULL,
 					PRIO_BME680_TASK, 0, K_NO_WAIT);
     k_thread_name_set(bme680_tid, "bme680");
+
+	return 0;
 }
