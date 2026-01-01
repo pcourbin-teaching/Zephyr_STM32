@@ -36,7 +36,7 @@ Some details on versions used:
 |---|---|
 | [PlatformIO (PIO)](https://platformio.org/) | Core 6.1.18 - Home 3.4.4 |
 | [Zephyr RTOS](https://docs.platformio.org/en/stable/frameworks/zephyr.html) | [4.2.1](https://docs.zephyrproject.org/4.2.1/) (See all versions available for PIO [here](https://registry.platformio.org/tools/platformio/framework-zephyr/versions)) |
-| [LVGL](https://docs.lvgl.io/9.2/) | 9.2 (linked with [Zephyr 4.2.1](https://github.com/zephyrproject-rtos/zephyr/tree/v4.2-branch/modules/lvgl) |
+| [LVGL](https://docs.lvgl.io/9.2/) | 9.2 (linked with [Zephyr 4.2.1](https://github.com/zephyrproject-rtos/zephyr/tree/v4.2-branch/modules/lvgl)) |
 
 Some useful links about the board:
 

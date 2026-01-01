@@ -89,7 +89,7 @@ static void sw0_task(void *p1, void *p2, void *p3)
 
 void sw0_pressed_callback(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
-    LOG_INF("Switch pressed at %d" PRIu32 "\n", k_cycle_get_32());
+    LOG_INF("Switch pressed at %u\n", k_cycle_get_32());
     if ((pins & (1 << sw0.pin)) != 0)
     {
         switchPushed = 1;
