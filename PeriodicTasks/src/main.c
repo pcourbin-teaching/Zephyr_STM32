@@ -132,5 +132,8 @@ int main(void)
 						generic_task_entry, (void *)&tasks[i], NULL, NULL,
 						K_PRIO_PREEMPT(tasks[i].priority), 0,
 						K_MSEC(DELAY_START_TIME_MS + tasks[i].start));
+		k_thread_name_set(&tasks[i].thread_p, tasks[i].name);
 	}
+
+	return 0;
 }

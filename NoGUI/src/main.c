@@ -164,4 +164,6 @@ int main(void)
     k_thread_create(&sw0_t, sw0_stack, K_THREAD_STACK_SIZEOF(sw0_stack),
                     sw0_task, NULL, NULL, NULL,
                     3, 0, K_NO_WAIT);
+    
+    return 0;
 }
