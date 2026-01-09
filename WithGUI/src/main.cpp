@@ -16,7 +16,7 @@ LOG_MODULE_REGISTER(app);
 #include "display.hpp"
 #include "bme680.hpp"
 
-#define STACKSIZE (4096)
+#define STACKSIZE (8192)
 static K_THREAD_STACK_DEFINE(display_stack, STACKSIZE);
 static K_THREAD_STACK_DEFINE(bme680_stack, STACKSIZE);
 
